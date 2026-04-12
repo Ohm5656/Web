@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from 'motion/react';
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from 'motion/react';
 import {
   Sparkles,
   Smartphone,
@@ -25,14 +25,14 @@ import DesktopMockup from '@/components/DesktopMockup';
 import MobileMockup from '@/components/MobileMockup';
 
 const serviceCardEntrances = [
-  { x: -56, y: 40, rotate: -4 },
-  { x: 0, y: -54, rotate: 2 },
-  { x: 60, y: 0, rotate: 3 },
-  { x: 48, y: -38, rotate: 4 },
-  { x: -54, y: 0, rotate: -3 },
-  { x: 0, y: 52, rotate: 2 },
-  { x: -42, y: -40, rotate: -4 },
-  { x: 44, y: 42, rotate: 3 }
+  { x: -40, y: 28, rotate: -3 },
+  { x: 0, y: -40, rotate: 1.5 },
+  { x: 42, y: 0, rotate: 2.5 },
+  { x: 34, y: -28, rotate: 3 },
+  { x: -38, y: 0, rotate: -2.5 },
+  { x: 0, y: 38, rotate: 1.5 },
+  { x: -30, y: -28, rotate: -3 },
+  { x: 32, y: 30, rotate: 2.5 }
 ];
 
 const serviceBlobs = [
@@ -79,10 +79,24 @@ export default function App() {
   const shouldReduceMotion = useReducedMotion();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [serviceAnimationCycle, setServiceAnimationCycle] = useState(0);
+  const servicesRef = useRef<HTMLElement | null>(null);
+  const lastScrollYRef = useRef(0);
+  const lastScrollDirectionRef = useRef<'down' | 'up'>('down');
+  const servicesWasInViewRef = useRef(false);
+  const hasPlayedServicesDownRef = useRef(false);
+  const hasPlayedServicesUpRef = useRef(false);
+  const isServicesInView = useInView(servicesRef, { amount: 0.24 });
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 32);
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 32);
+
+      if (currentScrollY !== lastScrollYRef.current) {
+        lastScrollDirectionRef.current = currentScrollY > lastScrollYRef.current ? 'down' : 'up';
+        lastScrollYRef.current = currentScrollY;
+      }
     };
 
     handleScroll();
@@ -100,6 +114,25 @@ export default function App() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      servicesWasInViewRef.current = isServicesInView;
+      return;
+    }
+
+    if (isServicesInView && !servicesWasInViewRef.current) {
+      if (lastScrollDirectionRef.current === 'down' && !hasPlayedServicesDownRef.current) {
+        hasPlayedServicesDownRef.current = true;
+        setServiceAnimationCycle((cycle) => cycle + 1);
+      } else if (lastScrollDirectionRef.current === 'up' && !hasPlayedServicesUpRef.current) {
+        hasPlayedServicesUpRef.current = true;
+        setServiceAnimationCycle((cycle) => cycle + 1);
+      }
+    }
+
+    servicesWasInViewRef.current = isServicesInView;
+  }, [isServicesInView, shouldReduceMotion]);
 
   const services = [
     { icon: Building2, label: 'เว็บไซต์บริษัท' },
@@ -520,7 +553,7 @@ export default function App() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="relative py-24 px-6 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
+      <section ref={servicesRef} id="services" className="relative py-24 px-6 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
         <motion.div
           aria-hidden="true"
           initial={{ opacity: 0, y: -20, scaleX: 0.78 }}
@@ -587,10 +620,10 @@ export default function App() {
 
               return (
                 <motion.div
-                  key={service.label}
+                  key={`${service.label}-${serviceAnimationCycle}`}
                   initial={
                     shouldReduceMotion
-                      ? { opacity: 0, y: 18 }
+                      ? { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }
                       : {
                           opacity: 0,
                           x: entrance.x,
@@ -599,11 +632,20 @@ export default function App() {
                           scale: 0.96
                         }
                   }
-                  whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.34 }}
+                  animate={
+                    shouldReduceMotion || serviceAnimationCycle > 0
+                      ? { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }
+                      : {
+                          opacity: 0,
+                          x: entrance.x,
+                          y: entrance.y,
+                          rotate: entrance.rotate,
+                          scale: 0.96
+                        }
+                  }
                   transition={{
-                    duration: shouldReduceMotion ? 0.45 : 0.86,
-                    delay: 0.08 + index * 0.1,
+                    duration: shouldReduceMotion ? 0.4 : 0.72,
+                    delay: 0.05 + index * 0.07,
                     ease: [0.16, 1, 0.3, 1]
                   }}
                   whileHover={{ y: -8, scale: 1.02, rotate: 0.35 }}
