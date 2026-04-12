@@ -80,7 +80,9 @@ export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [serviceAnimationCycle, setServiceAnimationCycle] = useState(0);
+  const [hoveredPackage, setHoveredPackage] = useState<'starter' | 'professional' | 'enterprise' | null>(null);
   const servicesRef = useRef<HTMLElement | null>(null);
+  const packageHoverResetTimeoutRef = useRef<number | null>(null);
   const lastScrollYRef = useRef(0);
   const lastScrollDirectionRef = useRef<'down' | 'up'>('down');
   const servicesWasInViewRef = useRef(false);
@@ -133,6 +135,39 @@ export default function App() {
 
     servicesWasInViewRef.current = isServicesInView;
   }, [isServicesInView, shouldReduceMotion]);
+
+  useEffect(() => {
+    return () => {
+      if (packageHoverResetTimeoutRef.current !== null) {
+        window.clearTimeout(packageHoverResetTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const isProfessionalHovered = hoveredPackage === 'professional';
+  const isProfessionalHoveredOther = hoveredPackage === 'starter' || hoveredPackage === 'enterprise';
+  const professionalTransitionClass =
+    isProfessionalHovered || isProfessionalHoveredOther ? 'duration-150 ease-out' : 'duration-[460ms] ease-out';
+
+  const handlePackageHoverStart = (target: 'starter' | 'professional' | 'enterprise') => {
+    if (packageHoverResetTimeoutRef.current !== null) {
+      window.clearTimeout(packageHoverResetTimeoutRef.current);
+      packageHoverResetTimeoutRef.current = null;
+    }
+
+    setHoveredPackage(target);
+  };
+
+  const handlePackageHoverEnd = (target: 'starter' | 'professional' | 'enterprise') => {
+    if (packageHoverResetTimeoutRef.current !== null) {
+      window.clearTimeout(packageHoverResetTimeoutRef.current);
+    }
+
+    packageHoverResetTimeoutRef.current = window.setTimeout(() => {
+      setHoveredPackage((current) => (current === target ? null : current));
+      packageHoverResetTimeoutRef.current = null;
+    }, 160);
+  };
 
   const services = [
     { icon: Building2, label: 'เว็บไซต์บริษัท' },
@@ -566,7 +601,7 @@ export default function App() {
           <div className="mt-2 h-20 w-72 rounded-full bg-blue-300/14 blur-3xl" />
         </motion.div>
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.08),_transparent_55%)]" />
+          <div className="absolute inset-x-0 -top-10 h-52 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.045),_transparent_62%)] blur-2xl" />
           {serviceBlobs.map((blob, index) => (
             <motion.div
               key={index}
@@ -700,32 +735,34 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ delay: 0 }}
               whileHover={{ y: -12, scale: 1.02 }}
-              className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all border border-slate-200"
+              onHoverStart={() => handlePackageHoverStart('starter')}
+              onHoverEnd={() => handlePackageHoverEnd('starter')}
+              className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-200 ease-out hover:border-blue-200 hover:bg-gradient-to-br hover:from-[#eef4ff] hover:via-[#dfe9ff] hover:to-[#d2e1ff] hover:shadow-2xl hover:shadow-blue-200/70"
             >
-              <div className="text-sm font-semibold text-blue-600 mb-2">STARTER</div>
-              <h3 className="text-3xl font-bold text-slate-900 mb-2">แพ็กเกจเริ่มต้น</h3>
+              <div className="mb-2 text-sm font-semibold text-blue-600 transition-colors duration-200 ease-out group-hover:text-blue-700">STARTER</div>
+              <h3 className="mb-2 text-3xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">แพ็กเกจเริ่มต้น</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-slate-900">฿XX,XXX</span>
+                <span className="text-4xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">฿XX,XXX</span>
               </div>
-              <ul className="space-y-3 mb-8 text-slate-600">
+              <ul className="mb-8 space-y-3 text-slate-600 transition-colors duration-200 ease-out group-hover:text-slate-700">
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>เหมาะสำหรับธุรกิจขนาดเล็ก</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>รองรับมือถือ</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>SEO พื้นฐาน</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>ระบบจัดการเนื้อหา</span>
                 </li>
               </ul>
-              <button className="w-full py-3 rounded-full bg-slate-100 text-slate-900 font-semibold hover:bg-slate-200 transition-all">
+              <button className="w-full rounded-full bg-slate-100 py-3 font-semibold text-slate-900 transition-all duration-200 ease-out hover:bg-slate-200 group-hover:bg-white/90 group-hover:text-blue-950 group-hover:shadow-[0_10px_30px_rgba(96,165,250,0.18)]">
                 เลือกแพ็กเกจนี้
               </button>
             </motion.div>
@@ -737,39 +774,63 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               whileHover={{ y: -12, scale: 1.02 }}
-              className="bg-gradient-to-br from-blue-900 to-blue-950 rounded-3xl p-8 shadow-2xl hover:shadow-blue-500/20 transition-all border-2 border-blue-400 relative md:-mt-4"
+              onHoverStart={() => handlePackageHoverStart('professional')}
+              onHoverEnd={() => handlePackageHoverEnd('professional')}
+              className={`relative rounded-3xl p-8 transition-all ${professionalTransitionClass} md:-mt-4 ${
+                isProfessionalHovered
+                  ? 'border border-blue-200 bg-gradient-to-br from-[#eef4ff] via-[#dfe9ff] to-[#d2e1ff] shadow-2xl shadow-blue-200/70'
+                  : isProfessionalHoveredOther
+                    ? 'border border-slate-200 bg-white shadow-lg'
+                  : 'border-2 border-blue-400 bg-gradient-to-br from-blue-900 to-blue-950 shadow-2xl hover:shadow-blue-500/20'
+              }`}
             >
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full text-sm font-semibold text-blue-950">
+              <div
+                className={`absolute -top-4 left-1/2 -translate-x-1/2 rounded-full px-6 py-2 text-sm font-semibold transition-all ${professionalTransitionClass} ${
+                  isProfessionalHovered
+                    ? 'bg-white/90 text-blue-700 shadow-[0_10px_24px_rgba(148,163,184,0.14)]'
+                    : isProfessionalHoveredOther
+                      ? 'bg-slate-100 text-slate-700 shadow-sm'
+                    : 'bg-gradient-to-r from-blue-400 to-cyan-400 text-blue-950'
+                }`}
+              >
                 แนะนำ
               </div>
-              <div className="text-sm font-semibold text-blue-300 mb-2">PROFESSIONAL</div>
-              <h3 className="text-3xl font-bold text-white mb-2">แพ็กเกจมืออาชีพ</h3>
+              <div className={`mb-2 text-sm font-semibold transition-colors ${professionalTransitionClass} ${isProfessionalHovered ? 'text-blue-700' : isProfessionalHoveredOther ? 'text-blue-600' : 'text-blue-300'}`}>PROFESSIONAL</div>
+              <h3 className={`mb-2 text-3xl font-bold transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-slate-900' : 'text-white'}`}>แพ็กเกจมืออาชีพ</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-white">฿XX,XXX</span>
+                <span className={`text-4xl font-bold transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-slate-900' : 'text-white'}`}>฿XX,XXX</span>
               </div>
-              <ul className="space-y-3 mb-8 text-blue-100">
+              <ul className={`mb-8 space-y-3 transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-slate-600' : 'text-blue-100'}`}>
                 <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 mt-1">✓</span>
+                  <span className={`mt-1 transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-blue-500' : 'text-cyan-400'}`}>✓</span>
                   <span>เหมาะสำหรับธุรกิจขนาดกลาง</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 mt-1">✓</span>
+                  <span className={`mt-1 transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-blue-500' : 'text-cyan-400'}`}>✓</span>
                   <span>ฟีเจอร์ครบครัน</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 mt-1">✓</span>
+                  <span className={`mt-1 transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-blue-500' : 'text-cyan-400'}`}>✓</span>
                   <span>SEO ขั้นสูง</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 mt-1">✓</span>
+                  <span className={`mt-1 transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-blue-500' : 'text-cyan-400'}`}>✓</span>
                   <span>ระบบ Analytics</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-cyan-400 mt-1">✓</span>
+                  <span className={`mt-1 transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-blue-500' : 'text-cyan-400'}`}>✓</span>
                   <span>ดูแล 6 เดือน</span>
                 </li>
               </ul>
-              <button className="w-full py-3 rounded-full bg-white text-blue-950 font-semibold hover:bg-blue-50 transition-all">
+              <button
+                className={`w-full rounded-full py-3 font-semibold transition-all ${professionalTransitionClass} ${
+                  isProfessionalHovered
+                    ? 'bg-white/90 text-blue-950 shadow-[0_10px_30px_rgba(96,165,250,0.18)] hover:bg-white'
+                    : isProfessionalHoveredOther
+                      ? 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+                    : 'bg-white text-blue-950 hover:bg-blue-50'
+                }`}
+              >
                 เลือกแพ็กเกจนี้
               </button>
             </motion.div>
@@ -781,36 +842,38 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
               whileHover={{ y: -12, scale: 1.02 }}
-              className="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all border border-slate-200"
+              onHoverStart={() => handlePackageHoverStart('enterprise')}
+              onHoverEnd={() => handlePackageHoverEnd('enterprise')}
+              className="group rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-200 ease-out hover:border-blue-200 hover:bg-gradient-to-br hover:from-[#eef4ff] hover:via-[#dfe9ff] hover:to-[#d2e1ff] hover:shadow-2xl hover:shadow-blue-200/70"
             >
-              <div className="text-sm font-semibold text-blue-600 mb-2">ENTERPRISE</div>
-              <h3 className="text-3xl font-bold text-slate-900 mb-2">แพ็กเกจองค์กร</h3>
+              <div className="mb-2 text-sm font-semibold text-blue-600 transition-colors duration-200 ease-out group-hover:text-blue-700">ENTERPRISE</div>
+              <h3 className="mb-2 text-3xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">แพ็กเกจองค์กร</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-slate-900">฿XX,XXX</span>
+                <span className="text-4xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">฿XX,XXX</span>
               </div>
-              <ul className="space-y-3 mb-8 text-slate-600">
+              <ul className="mb-8 space-y-3 text-slate-600 transition-colors duration-200 ease-out group-hover:text-slate-700">
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>เหมาะสำหรับองค์กรขนาดใหญ่</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>ปรับแต่งได้ไม่จำกัด</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>ระบบความปลอดภัยสูง</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>API Integration</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-500 mt-1">✓</span>
+                  <span className="mt-1 text-blue-500 transition-colors duration-200 ease-out group-hover:text-blue-600">✓</span>
                   <span>ดูแล 12 เดือน</span>
                 </li>
               </ul>
-              <button className="w-full py-3 rounded-full bg-slate-100 text-slate-900 font-semibold hover:bg-slate-200 transition-all">
+              <button className="w-full rounded-full bg-slate-100 py-3 font-semibold text-slate-900 transition-all duration-200 ease-out hover:bg-slate-200 group-hover:bg-white/90 group-hover:text-blue-950 group-hover:shadow-[0_10px_30px_rgba(96,165,250,0.18)]">
                 เลือกแพ็กเกจนี้
               </button>
             </motion.div>
