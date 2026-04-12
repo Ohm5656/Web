@@ -284,9 +284,15 @@ export default function App() {
                 href="#portfolio"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="px-8 py-3.5 bg-slate-900 text-white rounded-full font-semibold text-[15px] hover:bg-slate-800 transition-colors shadow-lg flex items-center justify-center"
+                className="group relative overflow-hidden px-8 py-3.5 bg-slate-900 text-white rounded-full font-semibold text-[15px] hover:bg-slate-800 transition-colors shadow-lg flex items-center justify-center"
               >
-                ดูผลงานของเรา
+                {!shouldReduceMotion ? (
+                  <span
+                    aria-hidden="true"
+                    className="motion-cta-shine absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-transparent via-white/35 to-transparent"
+                  />
+                ) : null}
+                <span className="relative z-10">ดูผลงานของเรา</span>
               </motion.a>
               <motion.a
                 href="#contact"
@@ -318,23 +324,25 @@ export default function App() {
               transition={{ delay: 0.5, duration: 0.8 }}
               className="absolute -left-4 sm:-left-12 lg:-left-20 top-10 lg:top-16 z-10"
             >
-              <div className="bg-gradient-to-br from-blue-200 via-white to-pink-200 p-[1px] rounded-2xl shadow-xl">
-                <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-3 sm:p-4 w-40 sm:w-48 lg:w-56">
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-2 tracking-wider">SELECTED WORK</div>
-                  <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                    <div>
-                      <div className="bg-slate-900 rounded-md h-12 sm:h-16 w-full flex items-center justify-center overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&q=80" className="w-full h-full object-cover opacity-80" alt="Work" />
+              <div className={shouldReduceMotion ? '' : 'motion-hero-float'}>
+                <div className="bg-gradient-to-br from-blue-200 via-white to-pink-200 p-[1px] rounded-2xl shadow-xl">
+                  <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-3 sm:p-4 w-40 sm:w-48 lg:w-56">
+                    <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-2 tracking-wider">SELECTED WORK</div>
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                      <div>
+                        <div className="bg-slate-900 rounded-md h-12 sm:h-16 w-full flex items-center justify-center overflow-hidden">
+                          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&q=80" className="w-full h-full object-cover opacity-80" alt="Work" />
+                        </div>
+                        <div className="h-1.5 bg-slate-200 rounded w-2/3 mt-1.5"></div>
+                        <div className="h-1 bg-slate-100 rounded w-1/2 mt-1"></div>
                       </div>
-                      <div className="h-1.5 bg-slate-200 rounded w-2/3 mt-1.5"></div>
-                      <div className="h-1 bg-slate-100 rounded w-1/2 mt-1"></div>
-                    </div>
-                    <div>
-                      <div className="bg-slate-100 border border-slate-200 rounded-md h-12 sm:h-16 w-full flex items-center justify-center overflow-hidden relative">
-                         <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                      <div>
+                        <div className="bg-slate-100 border border-slate-200 rounded-md h-12 sm:h-16 w-full flex items-center justify-center overflow-hidden relative">
+                           <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                        </div>
+                        <div className="h-1.5 bg-slate-200 rounded w-3/4 mt-1.5"></div>
+                        <div className="h-1 bg-slate-100 rounded w-1/3 mt-1"></div>
                       </div>
-                      <div className="h-1.5 bg-slate-200 rounded w-3/4 mt-1.5"></div>
-                      <div className="h-1 bg-slate-100 rounded w-1/3 mt-1"></div>
                     </div>
                   </div>
                 </div>
@@ -348,16 +356,18 @@ export default function App() {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="absolute right-0 sm:right-10 lg:right-20 -top-4 sm:-top-10 lg:-top-16 z-0"
             >
-              <div className="bg-gradient-to-br from-pink-200 via-white to-purple-200 p-[1px] rounded-2xl shadow-lg">
-                <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-3 w-32 sm:w-40 lg:w-48">
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-2 tracking-wider">SELECTED WORK</div>
-                  <div className="flex justify-between items-start gap-2">
-                    <div className="w-1/2 bg-slate-900 rounded-md h-16 sm:h-20 flex flex-col justify-center px-2">
-                      <div className="text-white text-[10px] sm:text-xs font-bold leading-[1.1]">EX<br/>TYPOG<br/>REM</div>
-                    </div>
-                    <div className="w-1/2 flex flex-col gap-1.5">
-                      <div className="bg-slate-100 rounded-md h-8 sm:h-10 w-full"></div>
-                      <div className="bg-slate-100 rounded-md h-6 sm:h-8 w-full"></div>
+              <div className={shouldReduceMotion ? '' : 'motion-hero-float-reverse'}>
+                <div className="bg-gradient-to-br from-pink-200 via-white to-purple-200 p-[1px] rounded-2xl shadow-lg">
+                  <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-3 w-32 sm:w-40 lg:w-48">
+                    <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-2 tracking-wider">SELECTED WORK</div>
+                    <div className="flex justify-between items-start gap-2">
+                      <div className="w-1/2 bg-slate-900 rounded-md h-16 sm:h-20 flex flex-col justify-center px-2">
+                        <div className="text-white text-[10px] sm:text-xs font-bold leading-[1.1]">EX<br/>TYPOG<br/>REM</div>
+                      </div>
+                      <div className="w-1/2 flex flex-col gap-1.5">
+                        <div className="bg-slate-100 rounded-md h-8 sm:h-10 w-full"></div>
+                        <div className="bg-slate-100 rounded-md h-6 sm:h-8 w-full"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -371,21 +381,23 @@ export default function App() {
               transition={{ delay: 0.7, duration: 0.8 }}
               className="absolute right-0 sm:right-0 lg:-right-4 xl:-right-12 top-20 sm:top-24 lg:top-32 z-20 hidden sm:block"
             >
-              <div className="bg-white p-[1px] rounded-2xl shadow-xl border border-slate-100">
-                <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-4 w-32 sm:w-36 lg:w-40">
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-3 tracking-wider">SERVICES</div>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
-                      <span className="text-xs sm:text-sm font-medium text-slate-800">Strategy</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-pink-500 rounded-full"></div>
-                      <span className="text-xs sm:text-sm font-medium text-slate-800">Design</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-1 h-1 bg-purple-500 rounded-full"></div>
-                      <span className="text-xs sm:text-sm font-medium text-slate-800">Development</span>
+              <div className={shouldReduceMotion ? '' : 'motion-hero-drift'}>
+                <div className="bg-white p-[1px] rounded-2xl shadow-xl border border-slate-100">
+                  <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-3 sm:p-4 w-32 sm:w-36 lg:w-40">
+                    <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-3 tracking-wider">SERVICES</div>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
+                        <span className="text-xs sm:text-sm font-medium text-slate-800">Strategy</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-pink-500 rounded-full"></div>
+                        <span className="text-xs sm:text-sm font-medium text-slate-800">Design</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-purple-500 rounded-full"></div>
+                        <span className="text-xs sm:text-sm font-medium text-slate-800">Development</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -399,29 +411,31 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.3, type: "spring" }}
               className="relative z-10 w-[260px] sm:w-[400px] lg:w-[480px] xl:w-[540px] flex flex-col items-center mt-10"
             >
-              {/* Screen Lid */}
-              <div className="w-full bg-[#1a1a1a] p-1.5 sm:p-2 lg:p-3 pb-3 sm:pb-4 lg:pb-6 rounded-t-xl sm:rounded-t-2xl lg:rounded-t-3xl border-t border-x border-slate-700 relative shadow-2xl">
-                {/* Inner Screen content */}
-                <div className="relative bg-slate-50 aspect-[16/10] overflow-hidden rounded-sm sm:rounded-md lg:rounded-lg cursor-ns-resize group">
-                  <motion.img 
-                    src="https://images.unsplash.com/photo-1760008486593-a85315610136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
-                    alt="Desktop View"
-                    className="w-full h-full object-cover object-top"
-                    initial={{ objectPosition: "50% 0%" }}
-                    whileHover={{ objectPosition: "50% 100%" }}
-                    transition={{ duration: 6, ease: "linear" }}
-                  />
-                  {/* Subtle top bar for the browser inside */}
-                  <div className="absolute top-0 inset-x-0 h-4 sm:h-5 lg:h-6 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center px-2 gap-1.5 pointer-events-none">
-                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-slate-300" />
-                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-slate-300" />
-                     <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-slate-300" />
+              <div className={shouldReduceMotion ? '' : 'motion-hero-float'}>
+                {/* Screen Lid */}
+                <div className="w-full bg-[#1a1a1a] p-1.5 sm:p-2 lg:p-3 pb-3 sm:pb-4 lg:pb-6 rounded-t-xl sm:rounded-t-2xl lg:rounded-t-3xl border-t border-x border-slate-700 relative shadow-2xl">
+                  {/* Inner Screen content */}
+                  <div className="relative bg-slate-50 aspect-[16/10] overflow-hidden rounded-sm sm:rounded-md lg:rounded-lg cursor-ns-resize group">
+                    <motion.img 
+                      src="https://images.unsplash.com/photo-1760008486593-a85315610136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080"
+                      alt="Desktop View"
+                      className="w-full h-full object-cover object-top"
+                      initial={{ objectPosition: "50% 0%" }}
+                      whileHover={{ objectPosition: "50% 100%" }}
+                      transition={{ duration: 6, ease: "linear" }}
+                    />
+                    {/* Subtle top bar for the browser inside */}
+                    <div className="absolute top-0 inset-x-0 h-4 sm:h-5 lg:h-6 bg-white/80 backdrop-blur border-b border-slate-200 flex items-center px-2 gap-1.5 pointer-events-none">
+                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-slate-300" />
+                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-slate-300" />
+                       <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-slate-300" />
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* Base */}
-              <div className="relative w-[110%] h-2.5 sm:h-3 lg:h-4 bg-gradient-to-b from-[#d1d5db] to-[#9ca3af] rounded-b-lg sm:rounded-b-2xl lg:rounded-b-3xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] flex justify-center">
-                <div className="w-1/6 h-1 sm:h-1.5 bg-slate-600 rounded-b-md"></div>
+                {/* Base */}
+                <div className="relative w-[110%] h-2.5 sm:h-3 lg:h-4 bg-gradient-to-b from-[#d1d5db] to-[#9ca3af] rounded-b-lg sm:rounded-b-2xl lg:rounded-b-3xl shadow-[0_20px_40px_rgba(0,0,0,0.3)] flex justify-center">
+                  <div className="w-1/6 h-1 sm:h-1.5 bg-slate-600 rounded-b-md"></div>
+                </div>
               </div>
             </motion.div>
 
@@ -432,17 +446,19 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.6, type: "spring" }}
               className="absolute left-2 sm:-left-4 lg:left-0 bottom-10 lg:bottom-16 z-30 w-[80px] sm:w-[120px] lg:w-[140px]"
             >
-              <div className="bg-[#1a1a1a] p-1 sm:p-1.5 lg:p-2 rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] border border-slate-700 shadow-2xl relative">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-3 sm:h-4 lg:h-5 bg-[#1a1a1a] rounded-b-lg z-40"></div>
-                <div className="relative aspect-[9/19] bg-slate-100 overflow-hidden rounded-[1.2rem] sm:rounded-[1.6rem] lg:rounded-[2.1rem] cursor-ns-resize group">
-                  <motion.img 
-                    src="https://images.unsplash.com/photo-1661246627162-feb0269e0c07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800"
-                    alt="Mobile View"
-                    className="w-full h-full object-cover object-top"
-                    initial={{ objectPosition: "50% 0%" }}
-                    whileHover={{ objectPosition: "50% 100%" }}
-                    transition={{ duration: 6, ease: "linear" }}
-                  />
+              <div className={shouldReduceMotion ? '' : 'motion-hero-float-reverse'}>
+                <div className="bg-[#1a1a1a] p-1 sm:p-1.5 lg:p-2 rounded-[1.5rem] sm:rounded-[2rem] lg:rounded-[2.5rem] border border-slate-700 shadow-2xl relative">
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1/3 h-3 sm:h-4 lg:h-5 bg-[#1a1a1a] rounded-b-lg z-40"></div>
+                  <div className="relative aspect-[9/19] bg-slate-100 overflow-hidden rounded-[1.2rem] sm:rounded-[1.6rem] lg:rounded-[2.1rem] cursor-ns-resize group">
+                    <motion.img 
+                      src="https://images.unsplash.com/photo-1661246627162-feb0269e0c07?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800"
+                      alt="Mobile View"
+                      className="w-full h-full object-cover object-top"
+                      initial={{ objectPosition: "50% 0%" }}
+                      whileHover={{ objectPosition: "50% 100%" }}
+                      transition={{ duration: 6, ease: "linear" }}
+                    />
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -454,11 +470,13 @@ export default function App() {
               transition={{ delay: 0.9, duration: 0.5 }}
               className="absolute right-2 sm:right-0 lg:-right-6 xl:-right-16 top-[40%] sm:top-[45%] z-30"
             >
-              <div className="bg-white rounded-xl p-2 sm:p-3 shadow-xl border border-blue-50/50 w-32 sm:w-40 lg:w-48">
-                <div className="text-[7px] sm:text-[8px] font-bold text-blue-500 mb-1 tracking-wider">CLIENT FEEDBACK</div>
-                <div className="text-[9px] sm:text-[11px] font-semibold text-slate-800 leading-tight mb-1">"Exceptional creative partner!"</div>
-                <div className="flex gap-0.5">
-                  {[1,2,3,4,5].map(i => <Sparkles key={i} className="w-2 sm:w-2.5 h-2 sm:h-2.5 text-yellow-400 fill-yellow-400" />)}
+              <div className={shouldReduceMotion ? '' : 'motion-hero-drift'}>
+                <div className="bg-white rounded-xl p-2 sm:p-3 shadow-xl border border-blue-50/50 w-32 sm:w-40 lg:w-48">
+                  <div className="text-[7px] sm:text-[8px] font-bold text-blue-500 mb-1 tracking-wider">CLIENT FEEDBACK</div>
+                  <div className="text-[9px] sm:text-[11px] font-semibold text-slate-800 leading-tight mb-1">"Exceptional creative partner!"</div>
+                  <div className="flex gap-0.5">
+                    {[1,2,3,4,5].map(i => <Sparkles key={i} className="w-2 sm:w-2.5 h-2 sm:h-2.5 text-yellow-400 fill-yellow-400" />)}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -470,26 +488,28 @@ export default function App() {
               transition={{ delay: 0.8, duration: 0.8 }}
               className="absolute right-4 sm:right-0 lg:-right-4 xl:-right-8 bottom-0 sm:bottom-4 lg:bottom-10 z-20"
             >
-              <div className="bg-gradient-to-br from-cyan-200 via-pink-200 to-purple-200 p-[2px] rounded-2xl shadow-xl">
-                <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-4 sm:p-5 w-36 sm:w-44 lg:w-56">
-                  <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-3 tracking-wider text-center">DESIGN SYSTEM</div>
-                  
-                  <div className="mb-3 sm:mb-4">
-                    <div className="text-[9px] sm:text-[10px] text-slate-400 mb-1">Typography</div>
-                    <div className="flex items-end gap-2 border-b border-slate-100 pb-2">
-                      <span className="text-xl sm:text-2xl font-serif text-slate-800">Aa</span>
-                      <span className="text-sm sm:text-base font-serif text-slate-400">/ Aa</span>
+              <div className={shouldReduceMotion ? '' : 'motion-hero-float'}>
+                <div className="bg-gradient-to-br from-cyan-200 via-pink-200 to-purple-200 p-[2px] rounded-2xl shadow-xl">
+                  <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-4 sm:p-5 w-36 sm:w-44 lg:w-56">
+                    <div className="text-[9px] sm:text-[10px] font-bold text-slate-500 mb-3 tracking-wider text-center">DESIGN SYSTEM</div>
+                    
+                    <div className="mb-3 sm:mb-4">
+                      <div className="text-[9px] sm:text-[10px] text-slate-400 mb-1">Typography</div>
+                      <div className="flex items-end gap-2 border-b border-slate-100 pb-2">
+                        <span className="text-xl sm:text-2xl font-serif text-slate-800">Aa</span>
+                        <span className="text-sm sm:text-base font-serif text-slate-400">/ Aa</span>
+                      </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <div className="text-[9px] sm:text-[10px] text-slate-400 mb-1.5">Palette</div>
-                    <div className="flex justify-between gap-1">
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-slate-900 shadow-sm"></div>
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-slate-100 shadow-sm border border-slate-200"></div>
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-blue-500 shadow-sm"></div>
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-indigo-400 shadow-sm"></div>
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-pink-300 shadow-sm"></div>
+                    <div>
+                      <div className="text-[9px] sm:text-[10px] text-slate-400 mb-1.5">Palette</div>
+                      <div className="flex justify-between gap-1">
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-slate-900 shadow-sm"></div>
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-slate-100 shadow-sm border border-slate-200"></div>
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-blue-500 shadow-sm"></div>
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-indigo-400 shadow-sm"></div>
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 rounded bg-pink-300 shadow-sm"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -501,6 +521,17 @@ export default function App() {
 
       {/* Services Section */}
       <section id="services" className="relative py-24 px-6 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -20, scaleX: 0.78 }}
+          whileInView={{ opacity: 1, y: 0, scaleX: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 flex flex-col items-center"
+        >
+          <div className="h-px w-40 bg-gradient-to-r from-transparent via-blue-300/80 to-transparent" />
+          <div className="mt-2 h-20 w-72 rounded-full bg-blue-300/14 blur-3xl" />
+        </motion.div>
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.08),_transparent_55%)]" />
           {serviceBlobs.map((blob, index) => (
@@ -592,7 +623,18 @@ export default function App() {
       </section>
 
       {/* Packages Section */}
-      <section id="packages" className="py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+      <section id="packages" className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -20, scaleX: 0.78 }}
+          whileInView={{ opacity: 1, y: 0, scaleX: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 flex flex-col items-center"
+        >
+          <div className="h-px w-40 bg-gradient-to-r from-transparent via-cyan-300/75 to-transparent" />
+          <div className="mt-2 h-20 w-72 rounded-full bg-cyan-300/12 blur-3xl" />
+        </motion.div>
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -736,6 +778,17 @@ export default function App() {
 
       {/* Portfolio Preview Section - Enhanced with Mockups */}
       <section id="portfolio" className="py-32 px-6 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative overflow-hidden">
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -20, scaleX: 0.78 }}
+          whileInView={{ opacity: 1, y: 0, scaleX: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 flex flex-col items-center"
+        >
+          <div className="h-px w-44 bg-gradient-to-r from-transparent via-indigo-300/80 to-transparent" />
+          <div className="mt-2 h-24 w-80 rounded-full bg-indigo-300/12 blur-3xl" />
+        </motion.div>
         {/* Decorative Background Elements */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full blur-3xl" />
@@ -766,24 +819,37 @@ export default function App() {
               {/* First two items in a row */}
               <div className="grid md:grid-cols-2 gap-16 lg:gap-20">
                 {desktopPortfolioItems.slice(0, 2).map((item, index) => (
-                  <DesktopMockup
+                  <motion.div
                     key={index}
-                    image={item.image}
-                    title={item.title}
-                    category={item.category}
-                  />
+                    initial={{ opacity: 0, y: 42, scale: 0.97 }}
+                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                    viewport={{ once: true, amount: 0.28 }}
+                    transition={{ duration: 0.8, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <DesktopMockup
+                      image={item.image}
+                      title={item.title}
+                      category={item.category}
+                    />
+                  </motion.div>
                 ))}
               </div>
 
               {/* Third item centered */}
               {desktopPortfolioItems.length > 2 && (
-                <div className="max-w-2xl mx-auto">
+                <motion.div
+                  initial={{ opacity: 0, y: 42, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.28 }}
+                  transition={{ duration: 0.8, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="max-w-2xl mx-auto"
+                >
                   <DesktopMockup
                     image={desktopPortfolioItems[2].image}
                     title={desktopPortfolioItems[2].title}
                     category={desktopPortfolioItems[2].category}
                   />
-                </div>
+                </motion.div>
               )}
             </div>
           </div>
@@ -811,12 +877,19 @@ export default function App() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 max-w-5xl mx-auto">
               {mobilePortfolioItems.map((item, index) => (
-                <MobileMockup
+                <motion.div
                   key={index}
-                  image={item.image}
-                  title={item.title}
-                  category={item.category}
-                />
+                  initial={{ opacity: 0, y: 36, scale: 0.97 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.28 }}
+                  transition={{ duration: 0.75, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <MobileMockup
+                    image={item.image}
+                    title={item.title}
+                    category={item.category}
+                  />
+                </motion.div>
               ))}
             </div>
           </div>
@@ -832,9 +905,15 @@ export default function App() {
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="px-10 py-4 bg-gradient-to-r from-blue-900 to-blue-950 text-white rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 transition-all"
+              className="group relative overflow-hidden px-10 py-4 bg-gradient-to-r from-blue-900 to-blue-950 text-white rounded-full font-semibold text-lg shadow-xl hover:shadow-2xl hover:shadow-blue-500/20 transition-all"
             >
-              ดูผลงานทั้งหมด
+              {!shouldReduceMotion ? (
+                <span
+                  aria-hidden="true"
+                  className="motion-cta-shine absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                />
+              ) : null}
+              <span className="relative z-10">ดูผลงานทั้งหมด</span>
             </motion.button>
           </motion.div>
         </div>
@@ -888,6 +967,17 @@ export default function App() {
 
       {/* Final CTA Section */}
       <section id="contact" className="py-32 px-6 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 relative overflow-hidden">
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -16, scaleX: 0.82 }}
+          whileInView={{ opacity: 1, y: 0, scaleX: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 flex flex-col items-center"
+        >
+          <div className="h-px w-44 bg-gradient-to-r from-transparent via-blue-200/70 to-transparent" />
+          <div className="mt-3 h-24 w-80 rounded-full bg-blue-200/10 blur-3xl" />
+        </motion.div>
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-400 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-400 rounded-full blur-3xl" />
@@ -912,9 +1002,15 @@ export default function App() {
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
-              className="px-10 py-4 bg-white text-blue-950 rounded-full font-semibold text-lg shadow-2xl hover:shadow-white/20 transition-all"
+              className="group relative overflow-hidden px-10 py-4 bg-white text-blue-950 rounded-full font-semibold text-lg shadow-2xl hover:shadow-white/20 transition-all"
             >
-              ดูแพ็กเกจ
+              {!shouldReduceMotion ? (
+                <span
+                  aria-hidden="true"
+                  className="motion-cta-shine absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-transparent via-blue-300/35 to-transparent"
+                />
+              ) : null}
+              <span className="relative z-10">ดูแพ็กเกจ</span>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}

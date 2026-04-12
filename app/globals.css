@@ -12,3 +12,84 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 120px;
 }
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  30% {
+    transform: translate3d(0, -12px, 0);
+  }
+  65% {
+    transform: translate3d(6px, 8px, 0);
+  }
+}
+
+@keyframes hero-float-reverse {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  35% {
+    transform: translate3d(0, 10px, 0);
+  }
+  70% {
+    transform: translate3d(-6px, -8px, 0);
+  }
+}
+
+@keyframes hero-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(5px, -8px, 0) scale(1.015);
+  }
+  75% {
+    transform: translate3d(-4px, 6px, 0) scale(0.995);
+  }
+}
+
+@keyframes cta-shine {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.24;
+  }
+  24% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(240%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+.motion-hero-float {
+  animation: hero-float 10.5s ease-in-out infinite;
+}
+
+.motion-hero-float-reverse {
+  animation: hero-float-reverse 11.5s ease-in-out infinite;
+}
+
+.motion-hero-drift {
+  animation: hero-drift 13s ease-in-out infinite;
+}
+
+.motion-cta-shine {
+  animation: cta-shine 4.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-hero-float,
+  .motion-hero-float-reverse,
+  .motion-hero-drift,
+  .motion-cta-shine {
+    animation: none;
+  }
+}
