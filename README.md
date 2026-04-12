@@ -1,22 +1,11 @@
 
-# Landing Page Design Request
+  # Landing page design request
 
-This repository contains the code for the "Landing Page Design Request" project.
+  This is a code bundle for Landing page design request. The original project is available at https://www.figma.com/design/PwepPVFWamP6Vf0yuIdeFX/Landing-page-design-request.
 
-The original Figma design is available here:
-https://www.figma.com/design/PwepPVFWamP6Vf0yuIdeFX/Landing-page-design-request
+  ## Running the code
 
-## Getting Started
+  Run `npm i` to install the dependencies.
 
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the development server:
-
-```bash
-npm run dev
-```
+  Run `npm run dev` to start the development server.
   
