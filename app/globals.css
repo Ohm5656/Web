@@ -19,10 +19,10 @@ html {
     transform: translate3d(0, 0, 0);
   }
   30% {
-    transform: translate3d(0, -12px, 0);
+    transform: translate3d(0, -16px, 0);
   }
   65% {
-    transform: translate3d(6px, 8px, 0);
+    transform: translate3d(8px, 10px, 0);
   }
 }
 
@@ -32,10 +32,10 @@ html {
     transform: translate3d(0, 0, 0);
   }
   35% {
-    transform: translate3d(0, 10px, 0);
+    transform: translate3d(0, 12px, 0);
   }
   70% {
-    transform: translate3d(-6px, -8px, 0);
+    transform: translate3d(-8px, -10px, 0);
   }
 }
 
@@ -45,10 +45,10 @@ html {
     transform: translate3d(0, 0, 0) scale(1);
   }
   40% {
-    transform: translate3d(5px, -8px, 0) scale(1.015);
+    transform: translate3d(8px, -11px, 0) scale(1.02);
   }
   75% {
-    transform: translate3d(-4px, 6px, 0) scale(0.995);
+    transform: translate3d(-6px, 8px, 0) scale(0.994);
   }
 }
 
@@ -70,15 +70,15 @@ html {
 }
 
 .motion-hero-float {
-  animation: hero-float 10.5s ease-in-out infinite;
+  animation: hero-float 9.4s ease-in-out infinite;
 }
 
 .motion-hero-float-reverse {
-  animation: hero-float-reverse 11.5s ease-in-out infinite;
+  animation: hero-float-reverse 10.3s ease-in-out infinite;
 }
 
 .motion-hero-drift {
-  animation: hero-drift 13s ease-in-out infinite;
+  animation: hero-drift 11.8s ease-in-out infinite;
 }
 
 .motion-cta-shine {
