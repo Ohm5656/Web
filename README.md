@@ -1,11 +1,16 @@
+# Landing page design request
 
-  # Landing page design request
+This project has been migrated from a duplicated Vite setup to a single Next.js app at the repository root while keeping the landing page UI and interactions as close to the original as possible.
 
-  This is a code bundle for Landing page design request. The original project is available at https://www.figma.com/design/PwepPVFWamP6Vf0yuIdeFX/Landing-page-design-request.
+## Scripts
 
-  ## Running the code
+- `npm install`
+- `npm run dev`
+- `npm run build`
+- `npm run start`
 
-  Run `npm i` to install the dependencies.
+## Structure
 
-  Run `npm run dev` to start the development server.
-  
+- `app/` Next.js app router files
+- `components/` landing page UI components
+- `styles/` global font, theme, and Tailwind styles
