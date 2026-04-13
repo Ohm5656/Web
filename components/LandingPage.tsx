@@ -341,9 +341,9 @@ export default function App() {
           >
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-slate-900 mb-6 leading-[1.1] tracking-tight uppercase">
               สร้างสรรค์
-              <br />
+              <br className="hidden sm:block" />
               ประสบการณ์
-              <br />
+              <br className="hidden sm:block" />
               ดิจิทัลที่เหนือระดับ
             </h1>
 
@@ -746,7 +746,7 @@ export default function App() {
               <div className="mb-2 text-sm font-semibold text-blue-600 transition-colors duration-200 ease-out group-hover:text-blue-700">STARTER</div>
               <h3 className="mb-2 text-3xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">แพ็กเกจเริ่มต้น</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">฿XX,XXX</span>
+                <span className="text-4xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">฿1,990</span>
               </div>
               <ul className="mb-8 space-y-3 text-slate-600 transition-colors duration-200 ease-out group-hover:text-slate-700">
                 <li className="flex items-start gap-2">
@@ -802,7 +802,7 @@ export default function App() {
               <div className={`mb-2 text-sm font-semibold transition-colors ${professionalTransitionClass} ${isProfessionalHovered ? 'text-blue-700' : isProfessionalHoveredOther ? 'text-blue-600' : 'text-blue-300'}`}>PROFESSIONAL</div>
               <h3 className={`mb-2 text-3xl font-bold transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-slate-900' : 'text-white'}`}>แพ็กเกจมืออาชีพ</h3>
               <div className="mb-6">
-                <span className={`text-4xl font-bold transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-slate-900' : 'text-white'}`}>฿XX,XXX</span>
+                <span className={`text-4xl font-bold transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-slate-900' : 'text-white'}`}>฿3,990</span>
               </div>
               <ul className={`mb-8 space-y-3 transition-colors ${professionalTransitionClass} ${isProfessionalHovered || isProfessionalHoveredOther ? 'text-slate-600' : 'text-blue-100'}`}>
                 <li className="flex items-start gap-2">
@@ -853,7 +853,7 @@ export default function App() {
               <div className="mb-2 text-sm font-semibold text-blue-600 transition-colors duration-200 ease-out group-hover:text-blue-700">ENTERPRISE</div>
               <h3 className="mb-2 text-3xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">แพ็กเกจองค์กร</h3>
               <div className="mb-6">
-                <span className="text-4xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">฿XX,XXX</span>
+                <span className="text-4xl font-bold text-slate-900 transition-colors duration-200 ease-out group-hover:text-slate-950">฿6,990</span>
               </div>
               <ul className="mb-8 space-y-3 text-slate-600 transition-colors duration-200 ease-out group-hover:text-slate-700">
                 <li className="flex items-start gap-2">
