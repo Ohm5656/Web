@@ -39,31 +39,31 @@ const serviceCardEntrances = [
 const serviceBlobs = [
   {
     className: 'left-[5%] top-16 h-[4.5rem] w-12 md:left-[8%] md:top-24 md:h-24 md:w-14',
-    color: 'from-blue-300/18 via-sky-300/10 to-blue-400/5',
+    color: 'from-cyan-300/34 via-blue-400/16 to-blue-500/0',
     duration: 9.5,
     delay: 0.4
   },
   {
     className: 'right-[7%] top-24 h-14 w-14 md:right-[10%] md:top-20 md:h-[4.5rem] md:w-[4.5rem]',
-    color: 'from-cyan-300/16 via-blue-300/8 to-sky-200/0',
+    color: 'from-sky-300/28 via-blue-400/14 to-cyan-200/0',
     duration: 8.6,
     delay: 1.3
   },
   {
     className: 'left-[16%] bottom-[4.5rem] h-10 w-10 md:left-[20%] md:bottom-20 md:h-14 md:w-12',
-    color: 'from-blue-400/14 via-sky-300/8 to-transparent',
+    color: 'from-blue-500/24 via-cyan-300/10 to-transparent',
     duration: 10.4,
     delay: 0.8
   },
   {
     className: 'right-[18%] bottom-10 h-16 w-11 md:right-[22%] md:bottom-16 md:h-20 md:w-14',
-    color: 'from-blue-200/16 via-blue-300/10 to-transparent',
+    color: 'from-cyan-200/24 via-blue-300/14 to-transparent',
     duration: 11.2,
     delay: 1.8
   },
   {
     className: 'left-1/2 top-1/2 h-12 w-8 -translate-x-1/2 md:h-16 md:w-10',
-    color: 'from-sky-300/12 via-blue-200/6 to-transparent',
+    color: 'from-sky-300/22 via-cyan-200/10 to-transparent',
     duration: 9.8,
     delay: 2.2
   }
@@ -92,13 +92,12 @@ export default function App() {
   const [serviceAnimationCycle, setServiceAnimationCycle] = useState(0);
   const [hoveredPackage, setHoveredPackage] = useState<'starter' | 'professional' | 'enterprise' | null>(null);
   const servicesRef = useRef<HTMLElement | null>(null);
+  const serviceAnimationTimeoutRef = useRef<number | null>(null);
   const packageHoverResetTimeoutRef = useRef<number | null>(null);
   const lastScrollYRef = useRef(0);
-  const lastScrollDirectionRef = useRef<'down' | 'up'>('down');
   const servicesWasInViewRef = useRef(false);
   const hasPlayedServicesDownRef = useRef(false);
-  const hasPlayedServicesUpRef = useRef(false);
-  const isServicesInView = useInView(servicesRef, { amount: 0.24 });
+  const isServicesInView = useInView(servicesRef, { amount: 0.45 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -106,7 +105,6 @@ export default function App() {
       setIsScrolled(currentScrollY > 32);
 
       if (currentScrollY !== lastScrollYRef.current) {
-        lastScrollDirectionRef.current = currentScrollY > lastScrollYRef.current ? 'down' : 'up';
         lastScrollYRef.current = currentScrollY;
       }
     };
@@ -133,14 +131,12 @@ export default function App() {
       return;
     }
 
-    if (isServicesInView && !servicesWasInViewRef.current) {
-      if (lastScrollDirectionRef.current === 'down' && !hasPlayedServicesDownRef.current) {
-        hasPlayedServicesDownRef.current = true;
+    if (isServicesInView && !servicesWasInViewRef.current && !hasPlayedServicesDownRef.current) {
+      hasPlayedServicesDownRef.current = true;
+      serviceAnimationTimeoutRef.current = window.setTimeout(() => {
         setServiceAnimationCycle((cycle) => cycle + 1);
-      } else if (lastScrollDirectionRef.current === 'up' && !hasPlayedServicesUpRef.current) {
-        hasPlayedServicesUpRef.current = true;
-        setServiceAnimationCycle((cycle) => cycle + 1);
-      }
+        serviceAnimationTimeoutRef.current = null;
+      }, 220);
     }
 
     servicesWasInViewRef.current = isServicesInView;
@@ -148,6 +144,9 @@ export default function App() {
 
   useEffect(() => {
     return () => {
+      if (serviceAnimationTimeoutRef.current !== null) {
+        window.clearTimeout(serviceAnimationTimeoutRef.current);
+      }
       if (packageHoverResetTimeoutRef.current !== null) {
         window.clearTimeout(packageHoverResetTimeoutRef.current);
       }
@@ -602,7 +601,11 @@ export default function App() {
       </section>
 
       {/* Services Section */}
-      <section ref={servicesRef} id="services" className="relative py-24 px-6 bg-gradient-to-b from-white to-slate-50 overflow-hidden">
+      <section
+        ref={servicesRef}
+        id="services"
+        className="relative overflow-hidden bg-gradient-to-b from-white to-slate-50 py-24 px-6"
+      >
         <motion.div
           aria-hidden="true"
           initial={{ opacity: 0, y: -20, scaleX: 0.78 }}
@@ -662,7 +665,82 @@ export default function App() {
             </p>
           </motion.div>
 
-          <div className="relative grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="relative grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+            {!shouldReduceMotion && serviceAnimationCycle > 0 ? (
+              <>
+                <motion.div
+                  aria-hidden="true"
+                  initial={{ opacity: 0, scale: 0.54 }}
+                  animate={{ opacity: [0, 0.95, 0], scale: [0.52, 1.18, 1.42] }}
+                  transition={{ duration: 1.05, delay: 0.54, ease: [0.16, 1, 0.3, 1] }}
+                  className="pointer-events-none absolute inset-x-[0%] top-[38%] z-0 h-56 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.46)_0%,rgba(59,130,246,0.28)_18%,rgba(96,165,250,0.18)_36%,transparent_74%)] blur-2xl"
+                />
+                <motion.div
+                  aria-hidden="true"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: [0, 1, 0], scale: [0.48, 1.06, 1.22] }}
+                  transition={{ duration: 0.92, delay: 0.56, ease: [0.16, 1, 0.3, 1] }}
+                  className="pointer-events-none absolute left-1/2 top-[46%] z-0 h-24 w-80 -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(219,234,254,0.98)_0%,rgba(96,165,250,0.42)_28%,transparent_72%)] blur-xl"
+                />
+              </>
+            ) : null}
+            {!shouldReduceMotion && serviceAnimationCycle > 0 ? (
+              <>
+                <motion.div
+                  aria-hidden="true"
+                  initial={{ opacity: 0, scaleX: 0.2 }}
+                  animate={{ opacity: [0, 0.7, 0], scaleX: [0.2, 1.08, 1.18] }}
+                  transition={{ duration: 0.86, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
+                  className="pointer-events-none absolute left-1/2 top-[49%] z-0 h-[3px] w-[84%] -translate-x-1/2 rounded-full bg-gradient-to-r from-transparent via-blue-500/90 to-transparent blur-[1px]"
+                />
+                {[
+                  'left-[7%] top-[42%] w-44 rotate-[-28deg]',
+                  'left-[15%] top-[47%] w-32 rotate-[-18deg]',
+                  'left-[24%] top-[52%] w-28 rotate-[-9deg]',
+                  'left-[33%] top-[56%] w-24 rotate-[-2deg]',
+                  'left-1/2 top-[57%] w-44 -translate-x-1/2 rotate-0',
+                  'right-[33%] top-[56%] w-24 rotate-[2deg]',
+                  'right-[24%] top-[52%] w-28 rotate-[9deg]',
+                  'right-[15%] top-[47%] w-32 rotate-[18deg]',
+                  'right-[7%] top-[42%] w-44 rotate-[28deg]',
+                  'left-[40%] top-[44%] h-28 w-[3px] rotate-[-14deg]',
+                  'right-[40%] top-[44%] h-28 w-[3px] rotate-[14deg]'
+                ].map((className, index) => (
+                  <motion.div
+                    key={className}
+                    aria-hidden="true"
+                    initial={{ opacity: 0, scaleX: 0.14, scaleY: 0.14 }}
+                    animate={{ opacity: [0, 0.7, 0], scaleX: [0.14, 1, 1.08], scaleY: [0.14, 1, 1.04] }}
+                    transition={{
+                      duration: 0.82,
+                      delay: 0.64 + index * 0.018,
+                      ease: [0.16, 1, 0.3, 1]
+                    }}
+                    className={`pointer-events-none absolute z-0 origin-center rounded-full bg-gradient-to-r from-transparent via-blue-500/90 to-transparent ${className}`}
+                  />
+                ))}
+                {[
+                  'left-[20%] top-[50%] h-16 w-[2px] rotate-[-36deg]',
+                  'left-[28%] top-[58%] h-14 w-[2px] rotate-[-12deg]',
+                  'left-1/2 top-[60%] h-20 w-[2px] -translate-x-1/2 rotate-0',
+                  'right-[28%] top-[58%] h-14 w-[2px] rotate-[12deg]',
+                  'right-[20%] top-[50%] h-16 w-[2px] rotate-[36deg]'
+                ].map((className, index) => (
+                  <motion.div
+                    key={`secondary-${className}`}
+                    aria-hidden="true"
+                    initial={{ opacity: 0, scaleY: 0.12 }}
+                    animate={{ opacity: [0, 0.48, 0], scaleY: [0.12, 1, 1.02] }}
+                    transition={{
+                      duration: 0.74,
+                      delay: 0.7 + index * 0.02,
+                      ease: [0.16, 1, 0.3, 1]
+                    }}
+                    className={`pointer-events-none absolute z-0 origin-top rounded-full bg-gradient-to-b from-blue-400/90 via-blue-400/70 to-transparent ${className}`}
+                  />
+                ))}
+              </>
+            ) : null}
             {services.map((service, index) => {
               const Icon = service.icon;
               const entrance = serviceCardEntrances[index % serviceCardEntrances.length];
@@ -683,7 +761,7 @@ export default function App() {
                   }
                   animate={
                     shouldReduceMotion || serviceAnimationCycle > 0
-                      ? { opacity: 1, x: 0, y: 0, rotate: 0, scale: 1 }
+                      ? { opacity: 1, x: 0, y: 0, rotate: 0, scale: [0.96, 1.02, 1] }
                       : {
                           opacity: 0,
                           x: entrance.x,
@@ -693,13 +771,15 @@ export default function App() {
                         }
                   }
                   transition={{
-                    duration: shouldReduceMotion ? 0.4 : 0.72,
-                    delay: 0.05 + index * 0.07,
+                    duration: shouldReduceMotion ? 0.4 : 0.76,
+                    delay: shouldReduceMotion ? 0 : 0.05 + index * 0.07,
                     ease: [0.16, 1, 0.3, 1]
                   }}
                   whileHover={{ y: -8, scale: 1.02, rotate: 0.35 }}
-                  className="group bg-white/92 backdrop-blur-sm rounded-2xl p-6 shadow-[0_18px_40px_rgba(15,23,42,0.08)] hover:shadow-[0_24px_60px_rgba(30,58,138,0.12)] transition-all cursor-pointer border border-slate-100 hover:border-blue-200 will-change-transform"
+                  className="group relative z-10 bg-white/92 backdrop-blur-sm rounded-2xl p-6 shadow-[0_18px_40px_rgba(15,23,42,0.08)] hover:shadow-[0_24px_60px_rgba(30,58,138,0.12)] transition-all cursor-pointer border border-slate-100 hover:border-blue-200 will-change-transform"
                 >
+                  <div className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-cyan-300/0 to-transparent transition-all duration-500 group-hover:via-cyan-300/70" />
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_50%_0%,rgba(96,165,250,0.16),transparent_42%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-[0_16px_30px_rgba(37,99,235,0.22)]">
                     <Icon className="w-7 h-7 text-white" />
                   </div>
@@ -714,7 +794,10 @@ export default function App() {
       </section>
 
       {/* Packages Section */}
-      <section id="packages" className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-slate-50 to-white">
+      <section
+        id="packages"
+        className="relative overflow-hidden py-24 px-6 bg-gradient-to-b from-slate-50 to-white"
+      >
         <motion.div
           aria-hidden="true"
           initial={{ opacity: 0, y: -20, scaleX: 0.78 }}
@@ -726,7 +809,7 @@ export default function App() {
           <div className="h-px w-40 bg-gradient-to-r from-transparent via-cyan-300/75 to-transparent" />
           <div className="mt-2 h-20 w-72 rounded-full bg-cyan-300/12 blur-3xl" />
         </motion.div>
-        <div className="max-w-7xl mx-auto">
+        <div className="relative z-10 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1203,9 +1286,7 @@ export default function App() {
             </motion.a>
           </div>
 
-          <p className="mt-6 text-sm text-blue-100/70">
-            เปลี่ยน Line, Email และเบอร์โทรในโค้ดให้เป็นข้อมูลจริงได้เมื่อพร้อมใช้งาน
-          </p>
+
         </motion.div>
       </section>
 
