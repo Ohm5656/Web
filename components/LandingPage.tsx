@@ -69,6 +69,15 @@ const serviceBlobs = [
   }
 ];
 
+const whyUsCardEntrances = [
+  { x: -34, y: 42, rotate: -2.8 },
+  { x: 0, y: 46, rotate: 1.2 },
+  { x: 34, y: 42, rotate: 2.8 },
+  { x: -30, y: -28, rotate: -2.2 },
+  { x: 0, y: 38, rotate: 1.4 },
+  { x: 30, y: -28, rotate: 2.2 }
+];
+
 const navItems = [
   { label: 'บริการ', href: '#services' },
   { label: 'แพ็กเกจ', href: '#packages' },
@@ -341,11 +350,11 @@ export default function App() {
             className="text-left"
           >
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-slate-900 mb-6 leading-[1.1] tracking-tight uppercase">
-              สร้างสรรค์
+              รับออกแบบ
               <br className="hidden sm:block" />
-              ประสบการณ์
+              และสร้างเว็บไซต์
               <br className="hidden sm:block" />
-              ดิจิทัลที่เหนือระดับ
+              ยกระดับธุรกิจคุณ
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed">
@@ -1030,13 +1039,21 @@ export default function App() {
       </section>
 
       {/* Why Choose Us Section */}
-      <section id="why-us" className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section
+        id="why-us"
+        className="relative overflow-hidden bg-white py-24 px-6"
+      >
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
+            initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 34 }}
+            whileInView={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center mb-5 md:mb-7"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
               ทำไมต้องเลือกเรา
@@ -1044,28 +1061,49 @@ export default function App() {
             <p className="text-lg text-slate-600">
               คุณสมบัติที่ทำให้เว็บไซต์ของคุณโดดเด่น
             </p>
+            <motion.div
+              aria-hidden="true"
+              initial={shouldReduceMotion ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.7, y: 10 }}
+              whileInView={shouldReduceMotion ? { opacity: 1, scaleX: 1 } : { opacity: 1, scaleX: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ delay: 0.16, duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
+              className="mx-auto mt-6 h-px w-36 origin-center bg-gradient-to-r from-transparent via-slate-300 to-transparent"
+            />
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid gap-4 md:grid-cols-3 md:gap-5">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon;
+              const entrance = whyUsCardEntrances[index % whyUsCardEntrances.length];
               return (
                 <motion.div
                   key={benefit.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -8 }}
-                  className="text-center p-8 rounded-2xl hover:bg-slate-50 transition-all"
+                  initial={
+                    shouldReduceMotion
+                      ? { opacity: 1, x: 0, y: 0, rotate: 0 }
+                      : { opacity: 0, x: entrance.x, y: entrance.y, rotate: entrance.rotate }
+                  }
+                  whileInView={
+                    shouldReduceMotion
+                      ? { opacity: 1, x: 0, y: 0, rotate: 0 }
+                      : { opacity: 1, x: 0, y: 0, rotate: 0 }
+                  }
+                  viewport={{ once: true, amount: 0.24 }}
+                  transition={{ delay: index * 0.08, duration: 0.78, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={shouldReduceMotion ? undefined : { y: -8, scale: 1.01 }}
+                  className="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-8 text-center shadow-[0_18px_40px_rgba(148,163,184,0.08)] transition-all duration-400 hover:border-slate-300 hover:shadow-[0_24px_54px_rgba(15,23,42,0.09)]"
                 >
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <motion.div
+                    whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.05, rotate: -2 }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    className="relative mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-[0_12px_22px_rgba(37,99,235,0.18)] transition-transform duration-400 group-hover:-translate-y-1 group-hover:scale-[1.04]"
+                  >
                     <Icon className="w-8 h-8 text-white" />
-                  </div>
+                  </motion.div>
                   <h3 className="text-xl font-bold text-slate-900 mb-2">
                     {benefit.title}
                   </h3>
-                  <p className="text-slate-600">
+                  <p className="relative text-slate-600 transition-colors duration-300 group-hover:text-slate-700">
                     {benefit.desc}
                   </p>
                 </motion.div>
