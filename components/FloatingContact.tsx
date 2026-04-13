@@ -1,33 +1,10 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageCircle, Phone, Mail, X } from 'lucide-react';
+import { MessageCircle, X } from 'lucide-react';
+import { contactMethods } from '@/components/contactData';
 
 export default function FloatingContact() {
   const [isOpen, setIsOpen] = useState(false);
-
-  const contactMethods = [
-    {
-      icon: MessageCircle,
-      label: 'Line',
-      value: '@yourline',
-      href: 'https://line.me/ti/p/@yourline',
-      color: 'bg-green-500 hover:bg-green-600'
-    },
-    {
-      icon: Phone,
-      label: 'โทร',
-      value: '02-XXX-XXXX',
-      href: 'tel:02XXXXXXX',
-      color: 'bg-blue-600 hover:bg-blue-700'
-    },
-    {
-      icon: Mail,
-      label: 'Email',
-      value: 'info@example.com',
-      href: 'mailto:info@example.com',
-      color: 'bg-slate-700 hover:bg-slate-800'
-    }
-  ];
 
   return (
     <div className="fixed bottom-6 right-6 z-50">

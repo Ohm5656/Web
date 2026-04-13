@@ -21,6 +21,7 @@ import {
   X
 } from 'lucide-react';
 import FloatingContact from '@/components/FloatingContact';
+import { contactMethods } from '@/components/contactData';
 import DesktopMockup from '@/components/DesktopMockup';
 import MobileMockup from '@/components/MobileMockup';
 
@@ -353,7 +354,7 @@ export default function App() {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <motion.a
-                href="#portfolio"
+                href="#services"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="group relative overflow-hidden px-8 py-3.5 bg-slate-900 text-white rounded-full font-semibold text-[15px] hover:bg-slate-800 transition-colors shadow-lg flex items-center justify-center"
@@ -364,7 +365,7 @@ export default function App() {
                     className="motion-cta-shine absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-transparent via-white/35 to-transparent"
                   />
                 ) : null}
-                <span className="relative z-10">ดูผลงานของเรา</span>
+                <span className="relative z-10">ดูบริการของเรา</span>
               </motion.a>
               <motion.a
                 href="#contact"
@@ -372,7 +373,7 @@ export default function App() {
                 whileTap={{ scale: 0.98 }}
                 className="px-8 py-3.5 bg-white text-slate-900 rounded-full font-semibold text-[15px] border border-slate-300 hover:border-slate-400 transition-colors flex items-center justify-center shadow-sm"
               >
-                เริ่มต้นโปรเจกต์
+                ติดต่อเรา
               </motion.a>
             </div>
           </motion.div>
@@ -1099,16 +1100,49 @@ export default function App() {
           className="max-w-4xl mx-auto text-center relative z-10"
         >
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            พร้อมมีเว็บไซต์ที่ดูดี
+            ให้เราดูแล
             <br />
-            และน่าเชื่อถือ?
+            โปรเจกต์ของคุณ?
           </h2>
           <p className="text-xl text-blue-100 mb-12">
-            เริ่มต้นออกแบบเว็บไซต์ของคุณวันนี้
+            ติดต่อเราได้ทันทีผ่าน Line, Email หรือโทรคุยเบื้องต้น
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
+          <div className="grid gap-4 md:grid-cols-3">
+            {contactMethods.map((method, index) => {
+              const Icon = method.icon;
+
+              return (
+                <motion.a
+                  key={method.label}
+                  href={method.href}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08 }}
+                  whileHover={{ y: -4 }}
+                  className="rounded-[1.75rem] border border-white/15 bg-white/10 p-6 text-left backdrop-blur-md shadow-[0_24px_60px_rgba(5,10,26,0.2)] transition-all hover:bg-white/14"
+                >
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-blue-950 shadow-lg">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <div className="text-sm font-semibold uppercase tracking-[0.24em] text-blue-100/75">
+                    {method.label}
+                  </div>
+                  <div className="mt-2 text-xl font-semibold text-white">
+                    {method.value}
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-blue-100/80">
+                    {method.description}
+                  </p>
+                </motion.a>
+              );
+            })}
+          </div>
+
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.a
+              href={contactMethods[0].href}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="group relative overflow-hidden px-10 py-4 bg-white text-blue-950 rounded-full font-semibold text-lg shadow-2xl hover:shadow-white/20 transition-all"
@@ -1119,16 +1153,21 @@ export default function App() {
                   className="motion-cta-shine absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-transparent via-blue-300/35 to-transparent"
                 />
               ) : null}
-              <span className="relative z-10">ดูแพ็กเกจ</span>
-            </motion.button>
-            <motion.button
+              <span className="relative z-10">แชตทาง Line</span>
+            </motion.a>
+            <motion.a
+              href="#services"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="px-10 py-4 bg-white/10 backdrop-blur-md text-white rounded-full font-semibold text-lg border-2 border-white/30 hover:bg-white/20 transition-all"
             >
-              ติดต่อสอบถาม
-            </motion.button>
+              ดูบริการของเรา
+            </motion.a>
           </div>
+
+          <p className="mt-6 text-sm text-blue-100/70">
+            เปลี่ยน Line, Email และเบอร์โทรในโค้ดให้เป็นข้อมูลจริงได้เมื่อพร้อมใช้งาน
+          </p>
         </motion.div>
       </section>
 
