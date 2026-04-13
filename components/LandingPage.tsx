@@ -288,11 +288,15 @@ export default function App() {
                 onClick={() => setIsMenuOpen((open) => !open)}
                 className={`inline-flex h-11 w-11 items-center justify-center rounded-full transition-all duration-300 md:hidden ${
                   isScrolled
-                    ? 'bg-slate-900 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)]'
+                    ? 'bg-transparent text-slate-900 shadow-none'
                     : 'border border-slate-300/80 bg-white/80 text-slate-900 backdrop-blur-sm'
                 }`}
               >
-                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {isMenuOpen ? (
+                  <X className="h-5 w-5 text-slate-900" />
+                ) : (
+                  <Menu className="h-5 w-5 text-slate-900" />
+                )}
               </button>
               </div>
             </div>
